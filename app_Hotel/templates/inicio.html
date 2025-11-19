@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4 fw-bold text-primary">Bienvenido al Sistema de Administración Hotel</h2>
+                
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h4 class="mb-3"><i class="bi bi-info-circle text-success"></i> Estado del Sistema</h4>
+                        <p class="lead text-muted">El sistema opera correctamente con las siguientes funciones activas:</p>
+                        
+                        <div class="list-group list-group-flush">
+                            <a href="{% url 'ver_reservas' %}" class="list-group-item list-group-item-action">
+                                <i class="bi bi-calendar-check text-primary me-2"></i> Gestión de Reservas (Entradas/Salidas)
+                            </a>
+                            <a href="{% url 'ver_rentas' %}" class="list-group-item list-group-item-action">
+                                <i class="bi bi-cash-coin text-success me-2"></i> Control de Rentas y Pagos
+                            </a>
+                            <a href="{% url 'ver_huespedes' %}" class="list-group-item list-group-item-action">
+                                <i class="bi bi-people text-info me-2"></i> Registro de Huéspedes
+                            </a>
+                            <a href="{% url 'ver_servicios' %}" class="list-group-item list-group-item-action">
+                                <i class="bi bi-cup-hot text-warning me-2"></i> Catálogo de Servicios Adicionales
+                            </a>
+                            <div class="list-group-item">
+                                <i class="bi bi-building text-secondary me-2"></i> Administración de Habitaciones y Empleados
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 text-center mt-4 mt-md-0">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="img-fluid rounded shadow" alt="Hotel Luxury" style="max-height: 350px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tarjetas de Acceso Rápido (Opcional, se ve muy bien) -->
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center bg-primary text-white mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Nueva Reserva</h5>
+                <p class="card-text">Registrar una estancia para un cliente.</p>
+                <a href="{% url 'agregar_reserva' %}" class="btn btn-light text-primary fw-bold">Ir ahora</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-success text-white mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Cobrar Renta</h5>
+                <p class="card-text">Finalizar estancia y procesar pagos.</p>
+                <a href="{% url 'agregar_renta' %}" class="btn btn-light text-success fw-bold">Ir ahora</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-dark text-white mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Habitaciones</h5>
+                <p class="card-text">Ver disponibilidad actual del hotel.</p>
+                <a href="{% url 'ver_habitaciones' %}" class="btn btn-light text-dark fw-bold">Ver mapa</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

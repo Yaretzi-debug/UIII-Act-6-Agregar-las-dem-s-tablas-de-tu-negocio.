@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="bi bi-cash-coin"></i> Nueva Renta (Check-in)</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- 1. SELECCIONAR EMPLEADO -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-primary">1. Empleado que realiza la renta:</label>
+                        <select class="form-select form-select-lg" name="empleado_seleccionado" required>
+                            <option value="">-- Selecciona al empleado --</option>
+                            {% for emp in lista_empleados %}
+                            <option value="{{ emp.id }}">
+                                {{ emp.nombre }} {{ emp.apellido }} ({{ emp.get_cargo_display }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <hr>
+
+                    <!-- 2. SELECCIONAR RESERVA (Check-in) -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-primary">2. Seleccionar Reserva / Huésped</label>
+                        <div class="input-group">
+                            <select class="form-select" name="reserva" required>
+                                <option value="">-- Busca la reserva del cliente --</option>
+                                {% for res in reservas_disponibles %}
+                                <option value="{{ res.id }}">
+                                    Reserva #{{ res.id }} | {{ res.cliente.nombre }} {{ res.cliente.apellido }} | Hab: {{ res.habitacion.numero }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <!-- Botón para crear reserva si no existe -->
+                            <a href="{% url 'agregar_reserva' %}" class="btn btn-success" target="_blank">
+                                <i class="bi bi-plus-circle"></i> + Nueva Reserva
+                            </a>
+                        </div>
+                        <div class="form-text text-muted">
+                            * Si el cliente no tiene reserva, pulsa el botón verde para crearla primero.
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- 3. MONTO -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Monto Total ($)</label>
+                            <input type="number" step="0.01" class="form-control" name="monto_renta" placeholder="Ej: 1500.00" required>
+                        </div>
+
+                        <!-- 4. DEPÓSITO -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Depósito en Garantía ($)</label>
+                            <input type="number" step="0.01" class="form-control" name="deposito" placeholder="Ej: 500.00">
+                        </div>
+                    </div>
+                    
+                    <hr>
+
+                    <!-- 5. SERVICIOS ADICIONALES -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-primary">3. Servicios Adicionales y Observaciones</label>
+                        
+                        <!-- A) Selección del catálogo -->
+                        <div class="mb-2 p-2 bg-light border rounded">
+                            <label class="small fw-bold">Opción A: Seleccionar del catálogo (Mantén Ctrl para elegir varios):</label>
+                            <select class="form-select" name="servicios" multiple size="3">
+                                {% for serv in servicios %}
+                                <option value="{{ serv.id }}">{{ serv.nombre }} - ${{ serv.costo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- B) Escritura Manual -->
+                        <div class="mb-2">
+                            <label class="small fw-bold">Opción B: Escribir servicios manuales o notas:</label>
+                            <textarea class="form-control" name="observaciones_servicio" rows="3" 
+                                      placeholder="Escribe aquí si pidió toallas extra, servicio al cuarto especial, o cualquier detalle escrito..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- 6. PAGADO -->
+                    <div class="alert alert-warning d-flex align-items-center">
+                        <input class="form-check-input me-2" type="checkbox" name="pagado" id="checkPagado" style="width: 25px; height: 25px;">
+                        <label class="form-check-label fw-bold ms-2" for="checkPagado">
+                            ¿El cliente ya realizó el pago completo?
+                        </label>
+                    </div>
+                    
+                    <!-- BOTONES -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'ver_rentas' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary btn-lg px-5">
+                            <i class="bi bi-save"></i> Guardar Renta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

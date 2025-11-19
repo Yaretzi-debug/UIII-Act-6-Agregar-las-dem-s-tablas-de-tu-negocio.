@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Actualizar Renta #RT-{{ renta.id }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Reserva Asociada</label>
+                        <!-- El campo está deshabilitado para no cambiar la reserva base por error, pero enviamos el ID oculto si fuera necesario -->
+                        <input type="text" class="form-control" value="{{ renta.reserva.cliente.nombre }} - Hab: {{ renta.reserva.habitacion.numero }}" disabled>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Servicios Consumidos (Seleccione todos los que apliquen)</label>
+                        <select class="form-select" name="servicios" multiple size="5">
+                            {% for serv in servicios %}
+                            <option value="{{ serv.id }}" 
+                                {% if serv in renta.servicios_consumidos.all %}selected{% endif %}>
+                                {{ serv.nombre }} (${{ serv.costo }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Mantenga presionado "Ctrl" para seleccionar múltiples servicios.</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Monto Total (Calculado)</label>
+                        <input type="number" step="0.01" class="form-control" name="monto_total" value="{{ renta.monto_total }}">
+                        <small class="text-muted">Puede ajustar el monto manualmente si es necesario.</small>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="pagado" id="checkPagado" {% if renta.pagado %}checked{% endif %}>
+                        <label class="form-check-label" for="checkPagado">
+                            Pagado
+                        </label>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning">Actualizar Renta</button>
+                        <a href="{% url 'ver_rentas' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

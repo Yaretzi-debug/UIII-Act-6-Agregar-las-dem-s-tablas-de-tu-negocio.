@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Actualizar Huésped: {{ huesped.nombre }} {{ huesped.apellido }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" value="{{ huesped.nombre }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="apellido" value="{{ huesped.apellido }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" name="telefono" value="{{ huesped.telefono }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" value="{{ huesped.email }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Dirección</label>
+                        <textarea class="form-control" name="direccion" rows="3" required>{{ huesped.direccion }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Registrado por (Empleado)</label>
+                            <select class="form-select" name="registrado_por">
+                                <option value="">-- Seleccionar empleado --</option>
+                                {% for empleado in empleados %}
+                                <option value="{{ empleado.id }}" {% if huesped.registrado_por and huesped.registrado_por.id == empleado.id %}selected{% endif %}>
+                                    {{ empleado.nombre }} {{ empleado.apellido }} - {{ empleado.get_cargo_display }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Habitaciones Asignadas</label>
+                            <select class="form-select" name="habitaciones" multiple>
+                                {% for habitacion in habitaciones %}
+                                <option value="{{ habitacion.id }}" {% if habitacion in huesped.habitaciones.all %}selected{% endif %}>
+                                    Habitación {{ habitacion.numero }} - {{ habitacion.get_tipo_display }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <small class="form-text text-muted">Mantén presionado Ctrl para seleccionar múltiples habitaciones</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning">Actualizar Huésped</button>
+                        <a href="{% url 'actualizar_huesped' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Actualizar Reserva #{{ reserva.id }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cliente</label>
+                            <select class="form-select" name="cliente" required>
+                                {% for huesped in huespedes %}
+                                <option value="{{ huesped.id }}" {% if reserva.cliente.id == huesped.id %}selected{% endif %}>
+                                    {{ huesped.nombre }} {{ huesped.apellido }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Habitación</label>
+                            <select class="form-select" name="habitacion" required>
+                                {% for hab in habitaciones %}
+                                <option value="{{ hab.id }}" {% if reserva.habitacion.id == hab.id %}selected{% endif %}>
+                                    Hab. {{ hab.numero }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha Entrada</label>
+                            <input type="date" class="form-control" name="fecha_entrada" value="{{ reserva.fecha_entrada|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha Salida</label>
+                            <input type="date" class="form-control" name="fecha_salida" value="{{ reserva.fecha_salida|date:'Y-m-d' }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" name="estado" required>
+                                <option value="PEN" {% if reserva.estado == 'PEN' %}selected{% endif %}>Pendiente</option>
+                                <option value="CON" {% if reserva.estado == 'CON' %}selected{% endif %}>Confirmada</option>
+                                <option value="CAN" {% if reserva.estado == 'CAN' %}selected{% endif %}>Cancelada</option>
+                                <option value="FIN" {% if reserva.estado == 'FIN' %}selected{% endif %}>Finalizada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Observaciones</label>
+                            <textarea class="form-control" name="observaciones" rows="1">{{ reserva.observaciones }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning">Actualizar Reserva</button>
+                        <a href="{% url 'ver_reservas' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirmar Eliminación</h4>
+            </div>
+            <div class="card-body text-center">
+                <h5>¿Está seguro que desea eliminar la habitación?</h5>
+                <p class="lead">Habitación N° {{ habitacion.numero }} - {{ habitacion.get_tipo_display }}</p>
+                <p><strong>Capacidad:</strong> {{ habitacion.capacidad }} personas</p>
+                <p><strong>Precio por noche:</strong> ${{ habitacion.precio_por_noche }}</p>
+                <p><strong>Piso:</strong> {{ habitacion.piso }}</p>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-block">
+                        <button type="submit" class="btn btn-danger">Sí, Eliminar</button>
+                        <a href="{% url 'borrar_habitacion' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

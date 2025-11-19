@@ -1,0 +1,47 @@
+<div class="p-3 text-white">
+    <h5 class="text-center mb-3">
+        <i class="bi bi-grid-fill"></i> Menú
+    </h5>
+    <hr class="bg-light">
+    
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item mb-2">
+            <a href="{% url 'inicio_hotel' %}" class="nav-link text-white active" aria-current="page">
+                <i class="bi bi-house-door me-2"></i> Inicio
+            </a>
+        </li>
+        
+        <!-- Accesos Directos -->
+        <li class="nav-item mb-2">
+            <a href="{% url 'ver_reservas' %}" class="nav-link text-white">
+                <i class="bi bi-calendar-date me-2"></i> Reservas
+            </a>
+        </li>
+        
+        <li class="nav-item mb-2">
+            <a href="{% url 'ver_rentas' %}" class="nav-link text-white">
+                <i class="bi bi-currency-dollar me-2"></i> Caja / Rentas
+            </a>
+        </li>
+
+        <li class="nav-item mb-2">
+            <a href="{% url 'ver_huespedes' %}" class="nav-link text-white">
+                <i class="bi bi-person-badge me-2"></i> Huéspedes
+            </a>
+        </li>
+        
+        <li class="nav-item mb-2">
+            <a href="{% url 'ver_habitaciones' %}" class="nav-link text-white">
+                <i class="bi bi-key me-2"></i> Habitaciones
+            </a>
+        </li>
+        
+        <hr class="bg-light my-2">
+        
+        <li class="nav-item">
+            <a href="{% url 'ver_empleados' %}" class="nav-link text-white-50 small">
+                <i class="bi bi-gear me-2"></i> Admin. Empleados
+            </a>
+        </li>
+    </ul>
+</div>

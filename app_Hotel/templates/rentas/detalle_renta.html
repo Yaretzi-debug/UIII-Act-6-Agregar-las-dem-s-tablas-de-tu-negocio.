@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle Renta #{{ renta.id }}</title>
+</head>
+<body>
+    <h1>Detalle de Renta #{{ renta.id }}</h1>
+    <p><strong>Cliente:</strong> {{ renta.reserva.cliente }}</p>
+    <p><strong>Habitación:</strong> {{ renta.reserva.habitacion }}</p>
+    <p><strong>Check-in:</strong> {{ renta.fecha_checkin_real }}</p>
+    <p><strong>Check-out:</strong> {{ renta.fecha_checkout_real|default:"Aún no" }}</p>
+    <p><strong>Total:</strong> ${{ renta.monto_total }}</p>
+    <a href="{% url 'ver_rentas' %}">← Volver a la lista</a>
+</body>
+</html>

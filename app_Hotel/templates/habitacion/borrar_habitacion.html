@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-trash"></i> Seleccionar Habitación para Eliminar</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="table-danger">
+                            <tr>
+                                <th>ID</th>
+                                <th>Número</th>
+                                <th>Tipo</th>
+                                <th>Capacidad</th>
+                                <th>Precio/Noche</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for habitacion in habitaciones %}
+                            <tr>
+                                <td>{{ habitacion.id }}</td>
+                                <td>{{ habitacion.numero }}</td>
+                                <td>{{ habitacion.get_tipo_display }}</td>
+                                <td>{{ habitacion.capacidad }}</td>
+                                <td>${{ habitacion.precio_por_noche }}</td>
+                                <td>
+                                    <a href="{% url 'realizar_borrado_habitacion' habitacion.id %}" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No hay habitaciones registradas</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

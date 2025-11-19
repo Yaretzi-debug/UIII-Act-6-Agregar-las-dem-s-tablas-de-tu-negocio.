@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0"><i class="bi bi-person-plus"></i> Agregar Nuevo Huésped</h4>
+            </div>
+            <div class="card-body">
+                {% if error_message %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> {{ error_message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endif %}
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" value="{% if form_data %}{{ form_data.nombre }}{% endif %}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="apellido" value="{% if form_data %}{{ form_data.apellido }}{% endif %}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" name="telefono" value="{% if form_data %}{{ form_data.telefono }}{% endif %}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control {% if error_message %}is-invalid{% endif %}" name="email" value="{% if form_data %}{{ form_data.email }}{% endif %}" required>
+                            {% if error_message %}
+                            <div class="invalid-feedback">
+                                Este email ya está registrado
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Dirección</label>
+                        <textarea class="form-control" name="direccion" rows="3" required>{% if form_data %}{{ form_data.direccion }}{% endif %}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Registrado por (Empleado)</label>
+                            <select class="form-select" name="registrado_por">
+                                <option value="">-- Seleccionar empleado --</option>
+                                {% for empleado in empleados %}
+                                <option value="{{ empleado.id }}" {% if form_data and form_data.registrado_por == empleado.id|stringformat:"i" %}selected{% endif %}>
+                                    {{ empleado.nombre }} {{ empleado.apellido }} - {{ empleado.get_cargo_display }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Habitaciones Asignadas</label>
+                            <select class="form-select" name="habitaciones" multiple>
+                                {% for habitacion in habitaciones %}
+                                <option value="{{ habitacion.id }}" {% if form_data and habitacion.id|stringformat:"i" in form_data.habitaciones %}selected{% endif %}>
+                                    Habitación {{ habitacion.numero }} - {{ habitacion.get_tipo_display }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <small class="form-text text-muted">Mantén presionado Ctrl para seleccionar múltiples habitaciones</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-info text-white">Guardar Huésped</button>
+                        <a href="{% url 'ver_huespedes' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
